@@ -181,9 +181,9 @@ class ChatGPT:
 
         self.logger.debug('Initializing browser...')
         options = uc.ChromeOptions()
-        #options.add_argument('--window-size=1024,768')
+        options.add_argument('--window-size=1024,768')
         options.add_argument("--log-level=3")
-        #options.add_argument("--headless")
+        options.add_argument("--headless")
         options.add_argument("--disable-images")
         options.add_argument("--mute-audio")
         options.add_argument('--no-sandbox')
