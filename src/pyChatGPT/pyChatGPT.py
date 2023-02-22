@@ -266,6 +266,7 @@ class ChatGPT:
 
         self.logger.debug('Validating authorization...')
         response = self.driver.page_source
+        print(response)
         if response[0] != '{':
             response = self.driver.find_element(By.TAG_NAME, 'pre').text
         response = json.loads(response)
