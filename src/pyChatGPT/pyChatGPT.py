@@ -264,21 +264,6 @@ class ChatGPT:
             raise ValueError('Cloudflare challenge failed')
         self.logger.debug('Cloudflare challenge passed')
 
-        self.logger.debug('Validating authorization...')
-        response = self.driver.page_source
-        print(response)
-        if response[0] != '{':
-            response = self.driver.find_element(By.TAG_NAME, 'pre').text
-        response = json.loads(response)
-        if (not response) or (
-            'error' in response and response['error'] == 'RefreshAccessTokenError'
-        ):
-            self.logger.debug('Authorization is invalid')
-            if not self.__auth_type:
-                raise ValueError('Invalid session token')
-            self.__login()
-        self.logger.debug('Authorization is valid')
-
         self.logger.debug('Closing tab...')
         self.driver.close()
         self.driver.switch_to.window(original_window)
