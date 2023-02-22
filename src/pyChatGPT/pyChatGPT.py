@@ -3,6 +3,12 @@ from selenium.common import exceptions as SeleniumExceptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+
 
 import undetected_chromedriver as uc
 from markdownify import markdownify
@@ -175,13 +181,16 @@ class ChatGPT:
 
         self.logger.debug('Initializing browser...')
         options = uc.ChromeOptions()
-        options.add_argument('--window-size=1024,768')
-        if self.__proxy:
-            options.add_argument(f'--proxy-server={self.__proxy}')
-        for arg in self.__chrome_args:
-            options.add_argument(arg)
+        #options.add_argument('--window-size=1024,768')
+        options.add_argument("--log-level=3")
+        #options.add_argument("--headless")
+        options.add_argument("--disable-images")
+        options.add_argument("--mute-audio")
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage') 
         try:
-            self.driver = uc.Chrome(options=options)
+            #self.driver = uc.Chrome(options=options)
+            self.driver = uc.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
         except TypeError as e:
             if str(e) == 'expected str, bytes or os.PathLike object, not NoneType':
                 raise ValueError('Chrome installation not found')
